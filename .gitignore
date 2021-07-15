@@ -1,0 +1,5 @@
+debug/
+release/
+shipping/
+local_settings.lua
+physx/samples/media/user/
