@@ -1,0 +1,67 @@
+
+for _, cc in toolsets('^cc.*') do
+    cc:all {
+        cc:StaticLibrary '${lib}/PhysX_${platform}_${architecture}' {
+            cc:Cxx '${obj}/%1' {
+                cxxflags = PHYSX_CXXFLAGS;
+                include_directories = {
+                    physx( 'physx/source/common/src' );
+                    physx( 'physx/source/foundation/include' );
+                    physx( 'physx/source/geomutils/include' );
+                    physx( 'physx/source/geomutils/src' );
+                    physx( 'physx/source/geomutils/src/ccd' );
+                    physx( 'physx/source/geomutils/src/contact' );
+                    physx( 'physx/source/geomutils/src/convex' );
+                    physx( 'physx/source/geomutils/src/hf' );
+                    physx( 'physx/source/geomutils/src/intersection' );
+                    physx( 'physx/source/geomutils/src/mesh' );
+                    physx( 'physx/source/geomutils/src/pcm' );
+                    physx( 'physx/source/lowlevel/api/include' );
+                    physx( 'physx/source/lowlevel/common/include/collision' );
+                    physx( 'physx/source/lowlevel/common/include/pipeline' );
+                    physx( 'physx/source/lowlevel/common/include/utils' );
+                    physx( 'physx/source/lowlevel/software/include' );
+                    physx( 'physx/source/lowlevelaabb/include' );
+                    physx( 'physx/source/lowleveldynamics/include' );
+                    physx( 'physx/source/physxgpu/include' );
+                    'include';
+                    'src';
+                    'src/buffering';
+                    'src/device';
+                };
+                'src/ScArticulationSim.cpp';    
+                'src/ScRigidCore.cpp';  
+                'src/ScArticulationJointCore.cpp';  
+                'src/ScConstraintGroupNode.cpp';    
+                'src/ScBodySim.cpp';    
+                'src/ScConstraintCore.cpp'; 
+                'src/ScConstraintSim.cpp';  
+                'src/ScShapeCore.cpp';  
+                'src/ScStaticCore.cpp'; 
+                'src/ScShapeSim.cpp';   
+                'src/ScArticulationJointSim.cpp';   
+                'src/ScConstraintProjectionManager.cpp';    
+                'src/ScElementSim.cpp'; 
+                'src/ScMetaData.cpp';   
+                'src/ScSqBoundsManager.cpp';    
+                'src/ScElementInteractionMarker.cpp';   
+                'src/ScInteraction.cpp';    
+                'src/ScConstraintProjectionTree.cpp';   
+                'src/ScIterators.cpp';  
+                'src/ScNPhaseCore.cpp'; 
+                'src/ScBodyCore.cpp';   
+                'src/ScRigidSim.cpp';   
+                'src/ScScene.cpp';  
+                'src/ScConstraintInteraction.cpp';  
+                'src/ScArticulationCore.cpp';   
+                'src/ScSimStats.cpp';   
+                'src/ScPhysics.cpp';    
+                'src/ScShapeInteraction.cpp';   
+                'src/ScActorCore.cpp';  
+                'src/ScTriggerInteraction.cpp'; 
+                'src/ScActorSim.cpp';   
+                'src/ScSimulationController.cpp';   
+            };
+        };
+    };
+end

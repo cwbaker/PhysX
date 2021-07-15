@@ -1,0 +1,151 @@
+
+for _, cc in toolsets('^cc.*') do
+    local include_directories = {
+        physx( 'physx/include' );
+        physx( 'physx/samples/samplecctsharedcode' );
+        physx( 'physx/samples/pxtoolkit/include' );
+        physx( 'physx/samples/samplebase' );
+        physx( 'physx/samples/sampleframework/framework/include' );
+        physx( 'physx/samples/sampleframework/renderer/include' );
+        physx( 'physx/samples/sampleframework/platform/include' );
+        physx( 'physx/source/common/include' );
+        physx( 'physx/source/common/src' );
+        physx( 'physx/source/foundation/include' );
+        physx( 'physx/source/geomutils/include' );
+        physx( 'physx/source/geomutils/include' );
+        physx( 'physx/source/geomutils/src/contact' );
+        physx( 'physx/source/geomutils/src/common' );
+        physx( 'physx/source/geomutils/src/convex' );
+        physx( 'physx/source/geomutils/src/distance' );
+        physx( 'physx/source/geomutils/src/gjk' );
+        physx( 'physx/source/geomutils/src/intersection' );
+        physx( 'physx/source/geomutils/src/mesh' );
+        physx( 'physx/source/geomutils/src/hf' );
+        physx( 'physx/source/geomutils/src/pcm' );
+        physx( 'physx/source/PhysXVehicle/src' );
+    };
+
+    local libraries = {
+        'GLU';
+        'X11';
+        'Xxf86vm';
+        'Cg';
+        'CgGL';
+        'GL';
+        'rt';
+        'pthread';
+        'dl';
+        'GLEW';
+    };
+
+    local library_directories;
+    if cc:platform_matches('linux') then
+        library_directories = {
+            physx( 'externals/cg-linux/lib' );
+            physx( 'externals/glew-linux/lib' );
+            physx( 'externals/opengl-linux/lib64' );
+        };
+        table.insert( include_directories, physx('externals/cg-linux/include') );
+        table.insert( include_directories, physx('externals/glew-linux/include') );
+        table.insert( include_directories, physx('externals/opengl-linux/include') );
+    end
+
+    cc:all {
+        cc:Executable '${bin}/Samples' {
+            libraries = libraries;
+            library_directories = library_directories;
+
+            '${lib}/SampleBase_${platform}_${architecture}';
+            '${lib}/SamplePlatform_${platform}_${architecture}';
+            '${lib}/SampleFramework_${platform}_${architecture}';
+            '${lib}/SampleRenderer_${platform}_${architecture}';
+            '${lib}/SampleToolkit_${platform}_${architecture}';
+            '${lib}/PhysX_${platform}_${architecture}';
+            '${lib}/PhysXPvdSDK_${platform}_${architecture}';
+            '${lib}/PhysXVehicle_${platform}_${architecture}';
+            '${lib}/PhysXCharacterKinematic_${platform}_${architecture}';
+            '${lib}/PhysXExtensions_${platform}_${architecture}';
+            '${lib}/PhysXCooking_${platform}_${architecture}';
+            '${lib}/PhysXCommon_${platform}_${architecture}';
+            '${lib}/PhysXFoundation_${platform}_${architecture}';
+            '${lib}/SampleToolkit_${platform}_${architecture}';            
+            '${lib}/FastXml_${platform}_${architecture}';
+
+            cc:Cxx '${obj}/%1' {
+                cxxflags = PHYSX_CXXFLAGS;
+                include_directories = include_directories;
+                'samplebridges/SampleBridges.cpp';
+                'samplebridges/SampleBridgesCCT.cpp';
+            };
+
+            cc:Cxx '${obj}/%1' {
+                cxxflags = PHYSX_CXXFLAGS;
+                include_directories = include_directories;
+                'samplehelloworld/SampleHelloWorld.cpp';
+            };
+
+            cc:Cxx '${obj}/%1' {
+                cxxflags = PHYSX_CXXFLAGS;
+                include_directories = include_directories;
+                'samplelargeworld/ChunkLoader.cpp';
+                'samplelargeworld/MeshBuilder.cpp';
+                'samplelargeworld/SampleLargeWorld.cpp';
+                'samplelargeworld/SampleLargeWorldCCT.cpp';
+            };
+
+            cc:Cxx '${obj}/%1' {
+                cxxflags = PHYSX_CXXFLAGS;
+                include_directories = include_directories;
+                'samplenorthpole/SampleNorthPole.cpp';
+                'samplenorthpole/SampleNorthPoleBuilder.cpp';
+                'samplenorthpole/SampleNorthPoleCameraController.cpp';
+                'samplenorthpole/SampleNorthPoleCCT.cpp';
+                'samplenorthpole/SampleNorthPoleDynamics.cpp';
+                'samplenorthpole/SampleNorthPoleFilterShader.cpp';
+            };
+
+            cc:Cxx '${obj}/%1' {
+                cxxflags = PHYSX_CXXFLAGS;
+                include_directories = include_directories;
+                'samplesubmarine/Crab.cpp';
+                'samplesubmarine/SampleSubmarine.cpp';
+            };
+
+            cc:Cxx '${obj}/%1' {
+                cxxflags = PHYSX_CXXFLAGS;
+                include_directories = include_directories;
+                'samplevehicle/SampleVehicle.cpp';
+                'samplevehicle/SampleVehicleDebugRender.cpp';
+                'samplevehicle/SampleVehicleTerrain.cpp';
+                'samplevehicle/SampleVehicle_CameraController.cpp';
+                'samplevehicle/SampleVehicle_ControlInputs.cpp';
+                'samplevehicle/SampleVehicle_GameLogic.cpp';
+                'samplevehicle/SampleVehicle_SceneQuery.cpp';
+                'samplevehicle/SampleVehicle_VehicleController.cpp';
+                'samplevehicle/SampleVehicle_VehicleCooking.cpp';
+                'samplevehicle/SampleVehicle_VehicleManager.cpp';
+                'samplevehicle/SampleVehicle_WheelQueryResults.cpp';
+            };
+
+            cc:Cxx '${obj}/%1' {
+                cxxflags = PHYSX_CXXFLAGS;
+                include_directories = include_directories;
+                'samplecustomgravity/Planet.cpp';
+                'samplecustomgravity/SampleCustomGravity.cpp';
+                'samplecustomgravity/SampleCustomGravity_CCT.cpp';
+                'samplecustomgravity/SampleCustomGravityBuilder.cpp';
+                'samplecustomgravity/SampleCustomGravityCameraController.cpp';
+                'samplecustomgravity/SampleCustomGravityFilterShader.cpp';
+            };
+
+            cc:Cxx '${obj}/%1' {
+                cxxflags = PHYSX_CXXFLAGS;
+                include_directories = include_directories;
+                'samplecctsharedcode/KinematicPlatform.cpp';
+                'samplecctsharedcode/SampleCCTActor.cpp';
+                'samplecctsharedcode/SampleCCTCameraController.cpp';
+                'samplecctsharedcode/SampleCCTJump.cpp';
+            };
+        };
+    };
+end

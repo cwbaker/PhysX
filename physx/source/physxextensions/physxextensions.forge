@@ -1,0 +1,125 @@
+
+local include_directories = {
+    physx( 'physx/include' );
+    physx( 'physx/source/common/include' );
+    physx( 'physx/source/common/src' );
+    physx( 'physx/source/foundation/include' );
+    physx( 'physx/source/geomutils/include' );
+    physx( 'physx/source/geomutils/src' );
+    physx( 'physx/source/geomutils/src/contact' );
+    physx( 'physx/source/geomutils/src/common' );
+    physx( 'physx/source/geomutils/src/convex' );
+    physx( 'physx/source/geomutils/src/distance' );
+    physx( 'physx/source/geomutils/src/sweep' );
+    physx( 'physx/source/geomutils/src/gjk' );
+    physx( 'physx/source/geomutils/src/intersection' );
+    physx( 'physx/source/geomutils/src/mesh' );
+    physx( 'physx/source/geomutils/src/hf' );
+    physx( 'physx/source/geomutils/src/pcm' );
+    physx( 'physx/source/physxmetadata/core/include' );
+    physx( 'physx/source/physxmetadata/extensions/include' );
+    physx( 'physx/source/pvdsdk/src' );
+    physx( 'physx/source/physx/src' );
+    physx( 'physx/source/pvd/include' );
+    physx( 'physx/source/fastxml/include' );
+    'src';
+    'src/serialization/Binary';
+    'src/serialization/File';
+    'src/serialization/Xml';
+};
+
+for _, cc in toolsets('^cc.*') do
+    cc:all {
+        cc:StaticLibrary '${lib}/PhysXExtensions_${platform}_${architecture}' {
+            '${lib}/PhysXFoundation_${platform}_${architecture}';
+            '${lib}/PhysXPvdSDK_${platform}_${architecture}';
+            '${lib}/PhysX_${platform}_${architecture}';
+
+            cc:Cxx '${obj}/%1' {
+                cxxflags = PHYSX_CXXFLAGS;
+                include_directories = include_directories;
+                'src/ExtDefaultSimulationFilterShader.cpp';
+                'src/ExtDistanceJoint.cpp';
+                'src/ExtCollection.cpp';
+                'src/ExtRevoluteJoint.cpp';
+                'src/ExtConvexMeshExt.cpp';
+                'src/ExtCpuWorkerThread.cpp';
+                'src/ExtMetaData.cpp';
+                'src/ExtJoint.cpp';
+                'src/ExtBroadPhase.cpp';
+                'src/ExtTriangleMeshExt.cpp';
+                'src/ExtRigidActorExt.cpp';
+                'src/ExtPxStringTable.cpp';
+                'src/serialization/SnSerialUtils.cpp';
+                'src/serialization/SnSerializationRegistry.cpp';
+                'src/serialization/SnSerialization.cpp';
+                'src/serialization/Binary/SnConvX_Convert.cpp';
+                'src/serialization/Binary/SnConvX.cpp';
+                'src/serialization/Binary/SnBinaryDeserialization.cpp';
+                'src/serialization/Binary/SnConvX_Union.cpp';
+                'src/serialization/Binary/SnConvX_Align.cpp';
+                'src/serialization/Binary/SnConvX_MetaData.cpp';
+                'src/serialization/Binary/SnSerializationContext.cpp';
+                'src/serialization/Binary/SnConvX_Error.cpp';
+                'src/serialization/Binary/SnConvX_Output.cpp';
+                'src/serialization/Binary/SnBinarySerialization.cpp';
+                'src/serialization/Xml/SnRepXCoreSerializer.cpp';
+                'src/serialization/Xml/SnJointRepXSerializer.cpp';
+                'src/serialization/Xml/SnRepXUpgrader.cpp';
+                'src/serialization/Xml/SnXmlSerialization.cpp';
+                'src/ExtPrismaticJoint.cpp';
+                'src/ExtExtensions.cpp';
+                'src/ExtD6Joint.cpp';
+                'src/ExtD6JointCreate.cpp';
+                'src/ExtRigidBodyExt.cpp';
+                'src/ExtDefaultStreams.cpp';
+                'src/ExtSmoothNormals.cpp';
+                'src/ExtFixedJoint.cpp';
+                'src/ExtSimpleFactory.cpp';
+                'src/ExtDefaultCpuDispatcher.cpp';
+                'src/ExtRaycastCCD.cpp';
+                'src/ExtContactJoint.cpp';
+                'src/ExtPvd.cpp';
+                'src/ExtSceneQueryExt.cpp';
+                'src/ExtSphericalJoint.cpp';
+            };
+
+            cc:Cxx '${obj}/%1' {
+                cxxflags = PHYSX_CXXFLAGS;
+                include_directories = include_directories;
+                defines = {
+                    '_CRT_SECURE_NO_WARNINGS';
+                };
+                'src/ExtDefaultErrorCallback.cpp';
+            };
+        };
+    };
+
+    pushd( '../physxmetadata/extensions' );
+    cc:StaticLibrary '${lib}/PhysXExtensions_${platform}_${architecture}' {
+        cc:Cxx '${obj}/%1' {
+            cxxflags = PHYSX_CXXFLAGS;
+            include_directories = {
+                physx( 'physx/source/common/src' );
+                physx( 'physx/source/geomutils/src' );
+                physx( 'physx/source/geomutils/src/ccd' );
+                physx( 'physx/source/geomutils/src/contact' );
+                physx( 'physx/source/geomutils/src/convex' );
+                physx( 'physx/source/geomutils/src/hf' );
+                physx( 'physx/source/geomutils/src/intersection' );
+                physx( 'physx/source/geomutils/src/mesh' );
+                physx( 'physx/source/geomutils/src/pcm' );
+                physx( 'physx/source/lowlevel/api/include' );
+                physx( 'physx/source/lowlevel/common/include/collision' );
+                physx( 'physx/source/lowlevel/common/include/pipeline' );
+                physx( 'physx/source/lowlevel/common/include/utils' );
+                physx( 'physx/source/lowlevel/software/include' );
+                physx( 'physx/source/physxmetadata/core/include' );
+                physx( 'physx/source/physxmetadata/extensions/include' );
+                'src';
+            };
+            'src/PxExtensionAutoGeneratedMetaDataObjects.cpp';
+        };
+    };
+    popd();
+end

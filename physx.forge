@@ -1,0 +1,100 @@
+
+local physx_root = pwd();
+function physx( path )
+    return absolute( path, physx_root );
+end
+
+if operating_system() == 'linux' or operating_system() == 'macos' then
+    PHYSX_CXXFLAGS = {
+        -- These warnings are disabled in the CMake build scripts.
+        '-Wno-invalid-offsetof';
+        '-Wno-maybe-uninitialized';
+        '-Wno-unused-variable';
+        '-Wno-variadic-macros';
+        '-Wno-array-bounds';
+        '-Wno-strict-aliasing';
+
+        -- -- These warnings I've disabled for Forge but possibly they're
+        -- -- occuring because of compiling with a later C++ standard or
+        -- -- GCC instead of Clang.
+        '-Wno-deprecated-copy';
+        '-Wno-restrict';
+        '-Wno-class-memaccess';
+        '-Wno-uninitialized';
+        '-Wno-unused-parameter';
+        '-Wno-misleading-indentation';
+        '-Wno-missing-field-initializers';
+        '-Wno-unused-function';
+        '-Wno-unused-but-set-variable';
+        '-Wno-reorder';
+        '-Wno-sign-compare';
+        '-Wno-implicit-fallthrough';
+
+        -- -- These are also disabled for building with Forge but only need to
+        -- -- be disabled for the release (and probably shipping) variant(s).
+        '-Wno-stringop-overflow';
+    };
+end
+
+for _, cc in toolsets('^cc.*') do
+    cc:all {
+        cc:interpolate( '${lib}/physx_${platform}_${architecture}' );
+        'physx/source/common/all';
+        'physx/source/fastxml/all';
+        'physx/source/foundation/all';
+        'physx/source/lowlevel/all';
+        'physx/source/lowlevelaabb/all';
+        'physx/source/lowleveldynamics/all';
+        'physx/source/physx/all';
+        'physx/source/physxcharacterkinematic/all';
+        'physx/source/physxcooking/all';
+        'physx/source/physxextensions/all';
+        'physx/source/physxvehicle/all';
+        'physx/source/pvd/all';
+        'physx/source/scenequery/all';
+        'physx/source/simulationcontroller/all';
+        'physx/source/task/all';
+    };
+end
+
+pushd( 'physx/source' );
+buildfile 'common/common.forge';
+buildfile 'fastxml/fastxml.forge';
+buildfile 'foundation/foundation.forge';
+buildfile 'geomutils/geomutils.forge';
+buildfile 'immediatemode/immediatemode.forge';
+buildfile 'lowlevel/lowlevel.forge';
+buildfile 'lowlevelaabb/lowlevelaabb.forge';
+buildfile 'lowleveldynamics/lowleveldynamics.forge';
+buildfile 'physx/physx.forge';
+buildfile 'physxcharacterkinematic/physxcharacterkinematic.forge';
+buildfile 'physxcooking/physxcooking.forge';
+buildfile 'physxextensions/physxextensions.forge';
+buildfile 'physxvehicle/physxvehicle.forge';
+buildfile 'pvd/pvd.forge';
+buildfile 'scenequery/scenequery.forge';
+buildfile 'simulationcontroller/simulationcontroller.forge';
+buildfile 'task/task.forge';
+popd();
+
+if operating_system() == 'linux' then
+    for _, cc in toolsets('^cc.*') do
+        cc:all {
+            'physx/samples/all';
+            'physx/samples/pxtoolkit/all';
+            'physx/samples/samplebase/all';
+            'physx/samples/sampleframework/framework/all';
+            'physx/samples/sampleframework/platform/all';
+            'physx/samples/sampleframework/renderer/all';
+        };
+    end
+
+    pushd( 'physx/samples' );
+    buildfile 'samples.forge';
+    buildfile 'pxtoolkit/pxtoolkit.forge';
+    buildfile 'samplebase/samplebase.forge';
+    buildfile 'sampleframework/framework/framework.forge';
+    buildfile 'sampleframework/platform/platform.forge';
+    buildfile 'sampleframework/renderer/renderer.forge';
+    popd();
+end

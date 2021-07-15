@@ -1,0 +1,64 @@
+
+for _, cc in toolsets('^cc.*') do
+    local include_directories = {
+        'include';
+        'src';
+    };
+
+    cc:all {
+        cc:StaticLibrary '${lib}/PhysXFoundation_${platform}_${architecture}' {
+            cc:Cxx '${obj}/%1' {
+                cxxflags = PHYSX_CXXFLAGS;
+                include_directories = include_directories;
+                'src/PsAllocator.cpp';
+                'src/PsAssert.cpp';
+                'src/PsFoundation.cpp';
+                'src/PsMathUtils.cpp';
+                'src/PsString.cpp';
+                'src/PsTempAllocator.cpp';
+                'src/PsUtilities.cpp';
+            };
+        };
+    };
+
+    if cc:platform_matches('linux') then
+        cc:StaticLibrary '${lib}/PhysXFoundation_${platform}_${architecture}' {
+            cc:Cxx '${obj}/%1' {
+                cxxflags = PHYSX_CXXFLAGS;
+                include_directories = include_directories;
+                'src/unix/PsUnixAtomic.cpp';
+                'src/unix/PsUnixCpu.cpp';
+                'src/unix/PsUnixFPU.cpp';
+                'src/unix/PsUnixMutex.cpp';
+                'src/unix/PsUnixPrintString.cpp';
+                'src/unix/PsUnixSList.cpp';
+                'src/unix/PsUnixSocket.cpp';
+                'src/unix/PsUnixSync.cpp';
+                'src/unix/PsUnixThread.cpp';
+                'src/unix/PsUnixTime.cpp';
+            };
+        };
+    elseif cc:platform_matches('windows') then
+        cc:StaticLibrary '${lib}/PhysXFoundation_${platform}_${architecture}' {
+            cc:Cxx '${obj}/%1' {
+                cxxflags = PHYSX_CXXFLAGS;
+                include_directories = include_directories;
+                defines = {
+                    -- Ignore deprecated socket function warnings.
+                    '_WINSOCK_DEPRECATED_NO_WARNINGS';
+                };
+                'src/windows/PsUWPThread.cpp';
+                'src/windows/PsWindowsAtomic.cpp';
+                'src/windows/PsWindowsCpu.cpp';
+                'src/windows/PsWindowsFPU.cpp';
+                'src/windows/PsWindowsMutex.cpp';
+                'src/windows/PsWindowsPrintString.cpp';
+                'src/windows/PsWindowsSList.cpp';
+                'src/windows/PsWindowsSocket.cpp';
+                'src/windows/PsWindowsSync.cpp';
+                'src/windows/PsWindowsThread.cpp';
+                'src/windows/PsWindowsTime.cpp';
+            };
+        };
+    end
+end

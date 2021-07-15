@@ -1,0 +1,71 @@
+
+for _, cc in toolsets('^cc.*') do
+    cc:all {
+        cc:StaticLibrary '${lib}/SampleBase_${platform}_${architecture}' {
+            '${lib}/SampleToolkit_${platform}_${architecture}';
+
+            cc:Cxx '${obj}/%1' {
+                cxxflags = PHYSX_CXXFLAGS;
+                defines = {
+                    '_CRT_SECURE_NO_WARNINGS';
+                };
+                include_directories = {
+                    physx( 'physx/include' );
+                    physx( 'physx/samples/pxtoolkit/include' );
+                    physx( 'physx/samples/sampleframework/framework/include' );
+                    physx( 'physx/samples/sampleframework/renderer/include' );
+                    physx( 'physx/samples/sampleframework/platform/include' );    
+                    physx( 'physx/source/common/src' );    
+                    physx( 'physx/source/common/include' );
+                    physx( 'physx/source/common/src' );
+                    physx( 'physx/source/foundation/include' );
+                    physx( 'physx/source/geomutils/include' );
+                    physx( 'physx/source/geomutils/include' );
+                    physx( 'physx/source/geomutils/src/contact' );
+                    physx( 'physx/source/geomutils/src/common' );
+                    physx( 'physx/source/geomutils/src/convex' );
+                    physx( 'physx/source/geomutils/src/distance' );
+                    physx( 'physx/source/geomutils/src/gjk' );
+                    physx( 'physx/source/geomutils/src/intersection' );
+                    physx( 'physx/source/geomutils/src/mesh' );
+                    physx( 'physx/source/geomutils/src/Ice' );
+                    physx( 'physx/source/geomutils/src/hf' );
+                    physx( 'physx/source/geomutils/src/pcm' );
+                    physx( 'physx/test/common/Utils' );
+                };
+                'AcclaimLoader.cpp';
+                'Dummy.cpp';
+                'InputEventBuffer.cpp';
+                'PhysXSample.cpp';
+                'PhysXSampleApplication.cpp';
+                'Picking.cpp';
+                'RawLoader.cpp';
+                'RaycastCCD.cpp';
+                'RenderBaseActor.cpp';
+                'RenderBaseObject.cpp';
+                'RenderBoxActor.cpp';
+                'RenderCapsuleActor.cpp';
+                'RenderGridActor.cpp';
+                'RenderMaterial.cpp';
+                'RenderMeshActor.cpp';
+                'RenderPhysX3Debug.cpp';
+                'RenderSphereActor.cpp';
+                'RenderTexture.cpp';
+                'SampleAllocator.cpp';
+                'SampleCamera.cpp';
+                'SampleCameraController.cpp';
+                'SampleCharacterHelpers.cpp';
+                'SampleConsole.cpp';
+                'SampleInputMappingAsset.cpp';
+                'SampleMain.cpp';
+                'SampleMouseFilter.cpp';
+                'SampleRandomPrecomputed.cpp';
+                'SampleStepper.cpp';
+                'TestGeometryHelpers.cpp';
+                'TestGroup.cpp';
+                'TestMotionGenerator.cpp';
+                'wavefront.cpp';
+            };
+        };
+    };
+end

@@ -1,0 +1,15 @@
+
+for _, cc in toolsets('^cc.*') do
+    cc:all {
+        cc:StaticLibrary '${lib}/FastXml_${platform}_${architecture}' {
+            cc:Cxx '${obj}/%1' {
+                cxxflags = PHYSX_CXXFLAGS;
+                include_directories = {
+                    physx( 'physx/source/foundation/include' );
+                    'include';
+                };
+                'src/PsFastXml.cpp';
+            };
+        };
+    };
+end

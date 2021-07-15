@@ -1,0 +1,33 @@
+
+for _, cc in toolsets('^cc.*') do
+    cc:all {
+        cc:StaticLibrary '${lib}/PhysX_${platform}_${architecture}' {
+            cc:Cxx '${obj}/%1' {
+                cxxflags = PHYSX_CXXFLAGS;
+                include_directories = {
+                    physx( 'physx/source/common/src' );
+                    physx( 'physx/source/foundation/include' );
+                    physx( 'physx/source/geomutils/include' );
+                    physx( 'physx/source/geomutils/src' );
+                    physx( 'physx/source/geomutils/src/ccd' );
+                    physx( 'physx/source/geomutils/src/contact' );
+                    physx( 'physx/source/geomutils/src/pcm' );
+                    physx( 'physx/source/lowlevel/api/include' );
+                    physx( 'physx/source/lowlevel/common/include/collision' );
+                    physx( 'physx/source/lowlevel/common/include/pipeline' );
+                    physx( 'physx/source/lowlevel/common/include/utils' );
+                    'include';
+                };
+                'src/BpAABBManager.cpp';
+                'src/BpBroadPhaseABP.cpp';
+                'src/BpBroadPhase.cpp';
+                'src/BpBroadPhaseMBP.cpp';
+                'src/BpBroadPhaseSapAux.cpp';
+                'src/BpBroadPhaseSap.cpp';
+                'src/BpBroadPhaseShared.cpp';
+                'src/BpMBPTasks.cpp';
+                'src/BpSAPTasks.cpp';
+            };
+        };
+    };
+end

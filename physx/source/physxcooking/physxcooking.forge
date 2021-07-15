@@ -1,0 +1,75 @@
+
+local defines = {
+    'PX_COOKING';
+};
+
+local include_directories = {
+    physx( 'physx/source/common/include' );
+    physx( 'physx/source/common/src' );
+    physx( 'physx/source/foundation/include' );
+    physx( 'physx/source/geomutils/include' );
+    physx( 'physx/source/geomutils/src' );
+    physx( 'physx/source/geomutils/src/ccd' );
+    physx( 'physx/source/geomutils/src/common' );
+    physx( 'physx/source/geomutils/src/contact' );
+    physx( 'physx/source/geomutils/src/convex' );
+    physx( 'physx/source/geomutils/src/hf' );
+    physx( 'physx/source/geomutils/src/intersection' );
+    physx( 'physx/source/geomutils/src/mesh' );
+    physx( 'physx/source/geomutils/src/pcm' );
+    physx( 'physx/source/lowlevel/api/include' );
+    physx( 'physx/source/lowlevel/common/include/collision' );
+    physx( 'physx/source/lowlevel/common/include/pipeline' );
+    physx( 'physx/source/lowlevel/common/include/utils' );
+    physx( 'physx/source/lowlevel/software/include' );
+    physx( 'physx/source/simulationcontroller/src' );
+    'src';
+    'src/convex';
+    'src/mesh';
+};
+
+for _, cc in toolsets('^cc.*') do
+    cc:all {
+        cc:StaticLibrary '${lib}/PhysXCooking_${platform}_${architecture}' {
+            '${lib}/PhysXCommon_${platform}_${architecture}';
+            '${lib}/PhysXFoundation_${platform}_${architecture}';
+
+            cc:Cxx '${obj}/%1' {
+                cxxflags = PHYSX_CXXFLAGS;
+                defines = defines;
+                include_directories = include_directories;
+                'src/BVHStructureBuilder.cpp';
+                'src/Adjacencies.cpp';
+                'src/Quantizer.cpp';
+                'src/convex/ConvexHullLib.cpp';
+                'src/convex/ConvexHullBuilder.cpp';
+                'src/convex/ConvexPolygonsBuilder.cpp';
+                'src/convex/ConvexHullUtils.cpp';
+                'src/convex/VolumeIntegration.cpp';
+                'src/convex/ConvexMeshBuilder.cpp';
+                'src/convex/QuickHullConvexHullLib.cpp';
+                'src/convex/BigConvexDataBuilder.cpp';
+                'src/mesh/MeshBuilder.cpp';
+                'src/mesh/HeightFieldCooking.cpp';
+                'src/mesh/GrbTriangleMeshCooking.cpp';
+                'src/mesh/RTreeCooking.cpp';
+                'src/mesh/TriangleMeshBuilder.cpp';
+                'src/EdgeList.cpp';
+                'src/MeshCleaner.cpp';
+                'src/Cooking.cpp';
+                'src/CookingUtils.cpp';
+            };
+        };
+    };
+
+    if cc:platform_matches('windows') then
+        cc:StaticLibrary '${lib}/PhysXCooking_${platform}_${architecture}' {
+            cc:Cxx '${obj}/%1' {
+                cxxflags = PHYSX_CXXFLAGS;
+                defines = defines;
+                include_directories = include_directories;
+                'src/windows/WindowsCookingDelayLoadHook.cpp';
+            };
+        };
+    end
+end

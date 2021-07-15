@@ -1,0 +1,34 @@
+
+for _, cc in toolsets('^cc.*') do
+    cc:all {
+        cc:StaticLibrary '${lib}/PhysXCommon_${platform}_${architecture}' {
+            '${lib}/PhysXFoundation_${platform}_${architecture}';
+            cc:Cxx '${obj}/%1' {
+                cxxflags = PHYSX_CXXFLAGS;
+                include_directories = {
+                    physx( 'physx/source/foundation/include' );
+                };
+                'src/CmCollection.cpp';
+                'src/CmPtrTable.cpp';
+                'src/CmRadixSortBuffered.cpp';
+                'src/CmRadixSort.cpp';
+                'src/CmRenderOutput.cpp';
+                'src/CmVisualization.cpp';
+            };
+        };
+    };
+
+    if cc:platform_matches('windows') then
+        cc:StaticLibrary '${lib}/PhysXCommon_${platform}_${architecture}' {
+            cc:Cxx '${obj}/%1' {
+                cxxflags = PHYSX_CXXFLAGS;
+                include_directories = {
+                    physx( 'physx/source/common/include' );
+                    physx( 'physx/source/foundation/include' );
+                };
+                'src/windows/CmWindowsDelayLoadHook.cpp';
+                'src/windows/CmWindowsModuleUpdateLoader.cpp';
+            };
+        };
+    end
+end

@@ -1,0 +1,148 @@
+
+for _, cc in toolsets('^cc.*') do
+    local physx_gpu_shared_library = switch {
+        cc.settings.platform;
+        linux = 'libPhysXGpu_64.so';
+        windows = 'PhysXGpu_64.dll';
+    };
+    local defines = {};
+    if cc:platform_matches('windows') then
+        table.insert( defines, '_CRT_SECURE_NO_WARNINGS' );
+    end
+    if physx_gpu_shared_library then
+        table.insert( defines, ('PX_PHYSX_GPU_SHARED_LIB_NAME=%s'):format(physx_gpu_shared_library) );
+    end
+
+    cc:all {
+        cc:StaticLibrary '${lib}/PhysX_${platform}_${architecture}' {
+            '${lib}/PhysXPvdSDK_${platform}_${architecture}';
+            '${lib}/PhysXCommon_${platform}_${architecture}';
+            '${lib}/PhysXFoundation_${platform}_${architecture}';
+
+            cc:Cxx '${obj}/%1' {
+                cxxflags = PHYSX_CXXFLAGS;
+                defines = defines;
+                include_directories = {
+                    physx( 'physx/source/common/include' );
+                    physx( 'physx/source/common/src' );
+                    physx( 'physx/source/foundation/include' );
+                    physx( 'physx/source/geomutils/include' );
+                    physx( 'physx/source/geomutils/src' );
+                    physx( 'physx/source/geomutils/src/ccd' );
+                    physx( 'physx/source/geomutils/src/contact' );
+                    physx( 'physx/source/geomutils/src/convex' );
+                    physx( 'physx/source/geomutils/src/hf' );
+                    physx( 'physx/source/geomutils/src/intersection' );
+                    physx( 'physx/source/geomutils/src/mesh' );
+                    physx( 'physx/source/geomutils/src/pcm' );
+                    physx( 'physx/source/lowlevel/api/include' );
+                    physx( 'physx/source/lowlevel/common/include/collision' );
+                    physx( 'physx/source/lowlevel/common/include/pipeline' );
+                    physx( 'physx/source/lowlevel/common/include/utils' );
+                    physx( 'physx/source/lowlevel/software/include' );
+                    physx( 'physx/source/lowleveldynamics/include' );
+                    physx( 'physx/source/physxmetadata/core/include' );
+                    physx( 'physx/source/physxgpu/include' );
+                    physx( 'physx/source/pvd/include' );
+                    physx( 'physx/source/scenequery/include' );
+                    physx( 'physx/source/simulationcontroller/include' );
+                    physx( 'physx/source/simulationcontroller/src' );
+                    'src';
+                    'src/buffering';
+                    'src/device';
+                };
+                'src/NpShapeManager.cpp';
+                'src/NpReadCheck.cpp';
+                'src/gpu/PxGpu.cpp';
+                'src/gpu/PxPhysXGpuModuleLoader.cpp';
+                'src/NpArticulationReducedCoordinate.cpp';
+                'src/NpConstraint.cpp';
+                'src/NpWriteCheck.cpp';
+                'src/NpRigidDynamic.cpp';
+                'src/NpRigidStatic.cpp';
+                'src/buffering/ScbMetaData.cpp';
+                'src/buffering/ScbBase.cpp';
+                'src/buffering/ScbScenePvdClient.cpp';
+                'src/buffering/ScbShape.cpp';
+                'src/buffering/ScbScene.cpp';
+                'src/buffering/ScbActor.cpp';
+                'src/buffering/ScbAggregate.cpp';
+                'src/NpFactory.cpp';
+                'src/NpScene.cpp';
+                'src/NpPhysics.cpp';
+                'src/NpSerializerAdapter.cpp';
+                'src/NpArticulation.cpp';
+                'src/NpArticulationLink.cpp';
+                'src/NpMaterial.cpp';
+                'src/NpShape.cpp';
+                'src/NpArticulationJointReducedCoordinate.cpp';
+                'src/NpAggregate.cpp';
+                'src/NpActor.cpp';
+                'src/NpMetaData.cpp';
+                'src/NpBatchQuery.cpp';
+                'src/NpArticulationJoint.cpp';
+                'src/NpSceneQueries.cpp';
+                'src/NpPvdSceneQueryCollector.cpp';
+                'src/PvdMetaDataPvdBinding.cpp';
+                'src/PvdPhysicsClient.cpp';
+            };
+        };
+    };
+
+    pushd( '../physxmetadata/core' );
+    cc:StaticLibrary '${lib}/PhysX_${platform}_${architecture}' {
+        cc:Cxx '${obj}/%1' {
+            cxxflags = PHYSX_CXXFLAGS;
+            defines = defines;
+            include_directories = {
+                physx( 'physx/source/common/src' );
+                physx( 'physx/source/foundation/include' );
+                physx( 'physx/source/geomutils/src' );
+                physx( 'physx/source/geomutils/src/ccd' );
+                physx( 'physx/source/geomutils/src/contact' );
+                physx( 'physx/source/geomutils/src/convex' );
+                physx( 'physx/source/geomutils/src/hf' );
+                physx( 'physx/source/geomutils/src/intersection' );
+                physx( 'physx/source/geomutils/src/mesh' );
+                physx( 'physx/source/geomutils/src/pcm' );
+                physx( 'physx/source/lowlevel/api/include' );
+                physx( 'physx/source/lowlevel/common/include/collision' );
+                physx( 'physx/source/lowlevel/common/include/pipeline' );
+                physx( 'physx/source/lowlevel/common/include/utils' );
+                physx( 'physx/source/lowlevel/software/include' );
+                physx( 'physx/source/physxmetadata/core/include' );
+                physx( 'physx/source/simulationcontroller/include' );
+                'src';
+            };
+            'src/PxAutoGeneratedMetaDataObjects.cpp';
+            'src/PxMetaDataObjects.cpp';
+        };
+    };
+    popd();
+
+    if cc:platform_matches('linux') then
+        cc:StaticLibrary '${lib}/PhysX_${platform}_${architecture}' {
+            cc:Cxx '${obj}/%1' {
+                include_directories = {
+                    'src/device';
+                };
+                'src/device/linux/PhysXIndicatorLinux.cpp';
+            };
+        };
+    elseif cc:platform_matches('windows') then
+        cc:StaticLibrary '${lib}/PhysX_${platform}_${architecture}' {
+            cc:Cxx '${obj}/%1' {
+                defines = defines;
+                include_directories = {
+                    physx( 'physx/source/common/include' );
+                    physx( 'physx/source/foundation/include' );
+                    'src/device';
+                };
+                'src/device/windows/PhysXIndicatorWindows.cpp';
+                'src/windows/NpWindowsDelayLoadHook.cpp';
+            };
+        };
+    else
+        assertf( 'platform "%s" not supported', settings.platform );
+    end
+end

@@ -1,0 +1,48 @@
+
+for _, cc in toolsets('^cc.*') do
+    cc:all {
+        cc:StaticLibrary '${lib}/PhysXPvdSDK_${platform}_${architecture}' {
+            '${lib}/PhysXFoundation_${platform}_${architecture}';
+
+            cc:Cxx '${obj}/%1' {
+                cxxflags = PHYSX_CXXFLAGS;
+                defines = {
+                    '_CRT_SECURE_NO_WARNINGS';
+                };
+                include_directories = {
+                    physx( 'physx/source/common/src' );
+                    physx( 'physx/source/filebuf/include' );
+                    physx( 'physx/source/foundation/include' );
+                    physx( 'physx/source/geomutils/src' );
+                    physx( 'physx/source/geomutils/src/ccd' );
+                    physx( 'physx/source/geomutils/src/contact' );
+                    physx( 'physx/source/geomutils/src/convex' );
+                    physx( 'physx/source/geomutils/src/hf' );
+                    physx( 'physx/source/geomutils/src/intersection' );
+                    physx( 'physx/source/geomutils/src/mesh' );
+                    physx( 'physx/source/geomutils/src/pcm' );
+                    physx( 'physx/source/lowlevel/api/include' );
+                    physx( 'physx/source/lowlevel/common/include/collision' );
+                    physx( 'physx/source/lowlevel/common/include/pipeline' );
+                    physx( 'physx/source/lowlevel/common/include/utils' );
+                    physx( 'physx/source/lowlevel/software/include' );
+                    physx( 'physx/source/physxmetadata/core/include' );
+                    physx( 'physx/source/simulationcontroller/src' );
+                    'include';
+                    'src';
+                };
+                'src/PxPvdDataStream.cpp';
+                'src/PxPvdUserRenderer.cpp';
+                'src/PxPvd.cpp';
+                'src/PxPvdDefaultSocketTransport.cpp';
+                'src/PxPvdObjectModelMetaData.cpp';
+                'src/PxPvdProfileZoneClient.cpp';
+                'src/PxPvdDefaultFileTransport.cpp';
+                'src/PxPvdImpl.cpp';
+                'src/PxPvdObjectRegistrar.cpp';
+                'src/PxProfileEventImpl.cpp';
+                'src/PxPvdMemClient.cpp';
+            };
+        };
+    };
+end

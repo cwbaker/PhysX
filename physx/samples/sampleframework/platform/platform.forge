@@ -1,0 +1,64 @@
+
+for _, cc in toolsets('^cc.*') do
+    local include_directories = {
+        physx( 'externals/cg-linux/include' );
+        physx( 'externals/glew/include' );
+        physx( 'physx/include' );
+        physx( 'physx/samples/pxtoolkit/include' );
+        physx( 'physx/samples/sampleframework/renderer/include' );
+        physx( 'physx/samples/sampleframework/framework/include' );
+        physx( 'physx/source/common/src' );
+        physx( 'physx/source/foundation/include' );
+        'include';
+    };
+
+    if cc:platform_matches('linux') then
+        table.insert( include_directories, 'include/linux' );
+        table.insert( include_directories, physx('externals/cg-linux/include') );
+        table.insert( include_directories, physx('externals/glew-linux/include') );
+        table.insert( include_directories, physx('externals/opengl-linux/include') );
+    elseif cc:platform_matches('windows') then
+        table.insert( include_directories, 'include/windows' );
+    end
+
+    local platform = cc:StaticLibrary '${lib}/SamplePlatform_${platform}_${architecture}' {
+        '${lib}/SampleToolkit_${platform}_${architecture}';
+
+        cc:Cxx '${obj}/%1' {
+            cxxflags = PHYSX_CXXFLAGS;
+            include_directories = include_directories;
+            defines = {
+                '_CRT_SECURE_NO_WARNINGS';
+            };
+            'src/SamplePlatform.cpp';
+            'src/SampleUserInput.cpp';
+        };
+    };
+
+    cc:all {
+        platform;
+    };
+
+    if cc:platform_matches('linux') then
+        platform {
+            cc:Cxx '${obj}/%1' {
+                cxxflags = PHYSX_CXXFLAGS;
+                include_directories = include_directories;
+                'src/linux/LinuxSamplePlatform.cpp';
+                'src/linux/LinuxSampleUserInput.cpp';
+            };
+        };
+    elseif cc:platform_matches('windows') then
+        platform {
+            cc:Cxx '${obj}/%1' {
+                cxxflags = PHYSX_CXXFLAGS;
+                include_directories = include_directories;
+                defines = {
+                    '_CRT_SECURE_NO_WARNINGS';
+                };
+                'src/windows/WindowsSamplePlatform.cpp';
+                'src/windows/WindowsSampleUserInput.cpp';
+            };
+        };
+    end
+end

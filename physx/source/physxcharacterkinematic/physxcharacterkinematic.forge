@@ -1,0 +1,32 @@
+
+for _, cc in toolsets('^cc.*') do
+    cc:all {
+        cc:StaticLibrary '${lib}/PhysXCharacterKinematic_${platform}_${architecture}' {
+            '${lib}/PhysXFoundation_${platform}_${architecture}';
+
+            cc:Cxx '${obj}/%1' {
+                cxxflags = PHYSX_CXXFLAGS;
+                include_directories = {
+                    physx( 'physx/include' );
+                    physx( 'physx/source/common/src' );
+                    physx( 'physx/source/foundation/include' );
+                    physx( 'physx/source/geomutils/include' );
+                    physx( 'physx/source/geomutils/src' );
+                    physx( 'physx/source/geomutils/src/ccd' );
+                    physx( 'physx/source/geomutils/src/contact' );
+                    physx( 'physx/source/geomutils/src/pcm' );
+                };
+                'src/CctController.cpp';
+                'src/CctCharacterControllerCallbacks.cpp';
+                'src/CctCharacterController.cpp';
+                'src/CctCharacterControllerManager.cpp';
+                'src/CctBoxController.cpp';
+                'src/CctObstacleContext.cpp';
+                'src/CctSweptCapsule.cpp';
+                'src/CctSweptVolume.cpp';
+                'src/CctCapsuleController.cpp';
+                'src/CctSweptBox.cpp';
+            };
+        };
+    };
+end

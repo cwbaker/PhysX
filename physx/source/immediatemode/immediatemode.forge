@@ -1,0 +1,29 @@
+
+for _, cc in toolsets('^cc.*') do
+    cc:StaticLibrary '${lib}/PhysX_${platform}_${architecture}' {
+        cc:Cxx '${obj}/%1' {
+            cxxflags = PHYSX_CXXFLAGS;
+            include_directories = {
+                physx( 'physx/source/common/src' );
+                physx( 'physx/source/foundation/include' );
+                physx( 'physx/source/geomutils/include' );
+                physx( 'physx/source/geomutils/src' );
+                physx( 'physx/source/geomutils/src/contact' );
+                physx( 'physx/source/geomutils/src/pcm' );
+                physx( 'physx/source/geomutils/src/mesh' );
+                physx( 'physx/source/geomutils/src/hf' );
+                physx( 'physx/source/geomutils/src/convex' );
+                physx( 'physx/source/lowlevel/api/include' );
+                physx( 'physx/source/lowlevel/software/include' );
+                physx( 'physx/source/lowlevel/software/include' );
+                physx( 'physx/source/lowleveldynamics/include' );
+                physx( 'physx/source/physx/src' );
+                physx( 'physx/source/physx/src/buffering' );
+                physx( 'physx/source/physxgpu/include' );
+                physx( 'physx/source/pvd/include' );
+                physx( 'physx/source/simulationcontroller/include' );
+            };
+            'src/NpImmediateMode.cpp';
+        };
+    };
+end

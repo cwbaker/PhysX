@@ -1,0 +1,23 @@
+
+for _, cc in toolsets('^cc.*') do
+    cc:all {
+        cc:StaticLibrary '${lib}/SampleToolkit_${platform}_${architecture}' {
+            '${lib}/PhysXFoundation_${platform}_${architecture}';
+            '${lib}/PhysXExtensions_${platform}_${architecture}';
+
+            cc:Cxx '${obj}/%1' {
+                cxxflags = PHYSX_CXXFLAGS;
+                include_directories = {
+                    physx( 'physx/include' );
+                    physx( 'physx/samples/pxtoolkit/include' );
+                    physx( 'physx/source/foundation/include' );
+                };
+                'src/PxTkBmpLoader.cpp';
+                'src/PxTkFPS.cpp';
+                'src/PxTkMatrixUtils.cpp';
+                'src/PxTkRandom.cpp';
+                'src/PxTkStream.cpp';
+            };
+        };
+    };
+end

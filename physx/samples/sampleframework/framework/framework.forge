@@ -1,0 +1,59 @@
+
+local include_directories = {
+    physx( 'externals/targa/include' );
+    physx( 'physx/include' );
+    physx( 'physx/source/common/src' );
+    physx( 'physx/source/fastxml/include' );
+    physx( 'physx/samples/pxtoolkit/include' );
+    physx( 'physx/source/foundation/include' );
+    'include';
+    '../renderer/include';
+    '../platform/include';
+};
+
+for _, cc in toolsets('^cc.*') do
+    cc:all {
+        cc:StaticLibrary '${lib}/SampleFramework_${platform}_${architecture}' {
+            '${lib}/PhysXFoundation_${platform}_${architecture}';
+            '${lib}/SampleToolkit_${platform}_${architecture}';
+
+            cc:Cxx '${obj}/%1' {
+                cxxflags = PHYSX_CXXFLAGS;
+                include_directories = include_directories;
+                defines = {
+                    '_CRT_SECURE_NO_WARNINGS';
+                };
+                'src/nv_dds.cpp';
+                'src/ODBlock.cpp';
+                'src/SampleApplication.cpp';
+                'src/SampleAsset.cpp';
+                'src/SampleAssetManager.cpp';
+                'src/SampleCommandLine.cpp';
+                'src/SampleDirManager.cpp';
+                'src/SampleInputAsset.cpp';
+                'src/SampleLineDebugRender.cpp';
+                'src/SampleMaterialAsset.cpp';
+                'src/SamplePointDebugRender.cpp';
+                'src/SampleTextureAsset.cpp';
+                'src/SampleTree.cpp';
+                'src/SampleTriangleDebugRender.cpp';
+            };
+
+            cc:Cxx '${obj}/%1' {
+                cxxflags = PHYSX_CXXFLAGS;
+                include_directories = include_directories;
+                physx( 'externals/targa/src/targa.cpp' );
+            };
+        };
+    };
+
+    if cc:platform_matches('linux') then
+        cc:StaticLibrary '${lib}/SampleFramework_${platform}_${architecture}' {
+            cc:Cxx '${obj}/%1' {
+                cxxflags = PHYSX_CXXFLAGS;
+                include_directories = include_directories;
+                'src/linux/LinuxSampleAssetManager.cpp';
+            };
+        };
+    end
+end

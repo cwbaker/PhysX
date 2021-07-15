@@ -1,0 +1,93 @@
+
+for _, cc in toolsets('^cc.*') do
+    local include_directories = {
+        physx( 'physx/include' );
+        physx( 'physx/samples/pxtoolkit/include' );
+        physx( 'physx/samples/sampleframework/platform/include' );
+        physx( 'physx/samples/sampleframework/framework/include' );
+        physx( 'physx/source/common/src' );
+        physx( 'physx/source/foundation/include' );
+        'include';
+    };
+
+    if cc:platform_matches('linux') then
+        table.insert( include_directories, physx('externals/cg-linux/include') );
+        table.insert( include_directories, physx('externals/glew-linux/include') );
+        table.insert( include_directories, physx('externals/opengl-linux/include') );
+    end
+
+    cc:all {
+        cc:StaticLibrary '${lib}/SampleRenderer_${platform}_${architecture}' {
+            '${lib}/SampleToolkit_${platform}_${architecture}';
+            '${lib}/SamplePlatform_${platform}_${architecture}';
+
+            cc:Cxx '${obj}/%1' {
+                cxxflags = PHYSX_CXXFLAGS;
+                include_directories = include_directories;
+                'src/Renderer.cpp';
+                'src/RendererBoxShape.cpp';
+                'src/RendererCapsuleShape.cpp';
+                'src/RendererColor.cpp';
+                'src/RendererDesc.cpp';
+                'src/RendererDirectionalLight.cpp';
+                'src/RendererDirectionalLightDesc.cpp';
+                'src/RendererGridShape.cpp';
+                'src/RendererIndexBuffer.cpp';
+                'src/RendererIndexBufferDesc.cpp';
+                'src/RendererInstanceBuffer.cpp';
+                'src/RendererInstanceBufferDesc.cpp';
+                'src/RendererLight.cpp';
+                'src/RendererLightDesc.cpp';
+                'src/RendererMaterial.cpp';
+                'src/RendererMaterialDesc.cpp';
+                'src/RendererMaterialInstance.cpp';
+                'src/RendererMesh.cpp';
+                'src/RendererMeshContext.cpp';
+                'src/RendererMeshDesc.cpp';
+                'src/RendererMeshShape.cpp';
+                'src/RendererProjection.cpp';
+                'src/RendererShape.cpp';
+                'src/RendererSpotLight.cpp';
+                'src/RendererSpotLightDesc.cpp';
+                'src/RendererTarget.cpp';
+                'src/RendererTargetDesc.cpp';
+                'src/RendererTerrainShape.cpp';
+                'src/RendererTexture.cpp';
+                'src/RendererTexture2D.cpp';
+                'src/RendererTexture2DDesc.cpp';
+                'src/RendererTextureDesc.cpp';
+                'src/RendererVertexBuffer.cpp';
+                'src/RendererVertexBufferDesc.cpp';
+                'src/RendererWindow.cpp';
+            };
+
+            cc:Cxx '${obj}/%1' {
+                cxxflags = PHYSX_CXXFLAGS;
+                include_directories = include_directories;
+                'src/null/NULLRenderer.cpp';
+                'src/null/NULLRendererDirectionalLight.cpp';
+                'src/null/NULLRendererIndexBuffer.cpp';
+                'src/null/NULLRendererInstanceBuffer.cpp';
+                'src/null/NULLRendererMaterial.cpp';
+                'src/null/NULLRendererMesh.cpp';
+                'src/null/NULLRendererSpotLight.cpp';
+                'src/null/NULLRendererTexture2D.cpp';
+                'src/null/NULLRendererVertexBuffer.cpp';
+            };
+
+            cc:Cxx '${obj}/%1' {
+                cxxflags = PHYSX_CXXFLAGS;
+                include_directories = include_directories;
+                'src/ogl/OGLRenderer.cpp';
+                'src/ogl/OGLRendererDirectionalLight.cpp';
+                'src/ogl/OGLRendererIndexBuffer.cpp';
+                'src/ogl/OGLRendererInstanceBuffer.cpp';
+                'src/ogl/OGLRendererMaterial.cpp';
+                'src/ogl/OGLRendererMesh.cpp';
+                'src/ogl/OGLRendererSpotLight.cpp';
+                'src/ogl/OGLRendererTexture2D.cpp';
+                'src/ogl/OGLRendererVertexBuffer.cpp';
+            };
+        };
+    };
+end

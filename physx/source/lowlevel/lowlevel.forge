@@ -1,0 +1,48 @@
+
+for _, cc in toolsets('^cc.*') do
+    cc:all {
+        cc:StaticLibrary '${lib}/PhysX_${platform}_${architecture}' {
+            cc:Cxx '${obj}/%1' {
+                cxxflags = PHYSX_CXXFLAGS;
+                include_directories = {
+                    physx( 'physx/source/common/src' );
+                    physx( 'physx/source/foundation/include' );
+                    physx( 'physx/source/geomutils/include' );
+                    physx( 'physx/source/geomutils/src' );
+                    physx( 'physx/source/geomutils/src/ccd' );
+                    physx( 'physx/source/geomutils/src/contact' );
+                    physx( 'physx/source/geomutils/src/hf' );
+                    physx( 'physx/source/geomutils/src/mesh' );
+                    physx( 'physx/source/geomutils/src/pcm' );
+                    physx( 'physx/source/lowleveldynamics/include' );
+                    physx( 'physx/source/physxgpu/include' );
+                    'api/include';
+                    'software/include';
+                    'common/include/collision';
+                    'common/include/pipeline';
+                    'common/include/utils';
+                };
+                'api/src/px_globals.cpp';
+                'common/src/pipeline/PxcContactCache.cpp';
+                'common/src/pipeline/PxcContactMethodImpl.cpp';
+                'common/src/pipeline/PxcMaterialHeightField.cpp';
+                'common/src/pipeline/PxcMaterialMesh.cpp';
+                'common/src/pipeline/PxcMaterialMethodImpl.cpp';
+                'common/src/pipeline/PxcMaterialShape.cpp';
+                'common/src/pipeline/PxcNpBatch.cpp';
+                'common/src/pipeline/PxcNpCacheStreamPair.cpp';
+                'common/src/pipeline/PxcNpContactPrepShared.cpp';
+                'common/src/pipeline/PxcNpMemBlockPool.cpp';
+                'common/src/pipeline/PxcNpThreadContext.cpp';
+                'software/src/PxsCCD.cpp';
+                'software/src/PxsContactManager.cpp';
+                'software/src/PxsContext.cpp';
+                'software/src/PxsDefaultMemoryManager.cpp';
+                'software/src/PxsIslandSim.cpp';
+                'software/src/PxsMaterialCombiner.cpp';
+                'software/src/PxsNphaseImplementationContext.cpp';
+                'software/src/PxsSimpleIslandManager.cpp';
+            };
+        };
+    };
+end

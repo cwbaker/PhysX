@@ -1,0 +1,54 @@
+
+for _, cc in toolsets('^cc.*') do
+    cc:all {
+        cc:StaticLibrary '${lib}/PhysX_${platform}_${architecture}' {
+            cc:Cxx '${obj}/%1' {
+                cxxflags = PHYSX_CXXFLAGS;
+                include_directories = {
+                    physx( 'physx/include' );
+                    physx( 'physx/source/common/src' );
+                    physx( 'physx/source/foundation/include' );
+                    physx( 'physx/source/geomutils/src/contact' );
+                    physx( 'physx/source/lowlevel/api/include' );
+                    physx( 'physx/source/lowlevel/common/include' );
+                    physx( 'physx/source/lowlevel/common/include/pipeline' );
+                    physx( 'physx/source/lowlevel/common/include/utils' );
+                    physx( 'physx/source/lowlevel/software/include' );
+                    physx( 'physx/source/physxgpu/include' );
+                    'include';
+                    'src';
+                };
+                'src/DyArticulationContactPrep.cpp';
+                'src/DyArticulationContactPrepPF.cpp';
+                'src/DyArticulation.cpp';
+                'src/DyArticulationHelper.cpp';
+                'src/DyArticulationScalar.cpp';
+                'src/DyArticulationSIMD.cpp';
+                'src/DyConstraintPartition.cpp';
+                'src/DyConstraintSetupBlock.cpp';
+                'src/DyConstraintSetup.cpp';
+                'src/DyContactPrep4.cpp';
+                'src/DyContactPrep4PF.cpp';
+                'src/DyContactPrep.cpp';
+                'src/DyContactPrepPF.cpp';
+                'src/DyDynamics.cpp';
+                'src/DyFeatherstoneArticulation.cpp';
+                'src/DyFeatherstoneForwardDynamic.cpp';
+                'src/DyFeatherstoneInverseDynamic.cpp';
+                'src/DyFrictionCorrelation.cpp';
+                'src/DyRigidBodyToSolverBody.cpp';
+                'src/DySolverConstraintsBlock.cpp';
+                'src/DySolverConstraints.cpp';
+                'src/DySolverControl.cpp';
+                'src/DySolverControlPF.cpp';
+                'src/DySolverPFConstraintsBlock.cpp';
+                'src/DySolverPFConstraints.cpp';
+                'src/DyTGSContactPrepBlock.cpp';
+                'src/DyTGSContactPrep.cpp';
+                'src/DyTGSDynamics.cpp';
+                'src/DyThreadContext.cpp';
+                'src/DyThresholdTable.cpp';
+            };
+        };
+    };
+end

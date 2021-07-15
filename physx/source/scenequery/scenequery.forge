@@ -1,0 +1,49 @@
+
+for _, cc in toolsets('^cc.*') do
+    cc:all {
+        cc:StaticLibrary '${lib}/PhysX_${platform}_${architecture}' {
+            cc:Cxx '${obj}/%1' {
+                cxxflags = PHYSX_CXXFLAGS;
+                include_directories = {
+                    physx( 'physx/source/common/src' );
+                    physx( 'physx/source/foundation/include' );
+                    physx( 'physx/source/geomutils/include' );
+                    physx( 'physx/source/geomutils/src' );
+                    physx( 'physx/source/geomutils/src/ccd' );
+                    physx( 'physx/source/geomutils/src/contact' );
+                    physx( 'physx/source/geomutils/src/convex' );
+                    physx( 'physx/source/geomutils/src/hf' );
+                    physx( 'physx/source/geomutils/src/intersection' );
+                    physx( 'physx/source/geomutils/src/mesh' );
+                    physx( 'physx/source/geomutils/src/pcm' );
+                    physx( 'physx/source/lowlevel/api/include' );
+                    physx( 'physx/source/lowlevel/common/include/collision' );
+                    physx( 'physx/source/lowlevel/common/include/pipeline' );
+                    physx( 'physx/source/lowlevel/common/include/utils' );
+                    physx( 'physx/source/lowlevel/software/include' );
+                    physx( 'physx/source/physx/src' );
+                    physx( 'physx/source/physx/src/buffering' );
+                    physx( 'physx/source/pvd/include' );
+                    physx( 'physx/source/simulationcontroller/include' );
+                    'include';
+                    'src';
+                };
+                'src/SqIncrementalAABBPrunerCore.cpp';
+                'src/SqIncrementalAABBTree.cpp';
+                'src/SqAABBPruner.cpp';
+                'src/SqPruningPool.cpp';
+                'src/SqPruningStructure.cpp';
+                'src/SqIncrementalAABBPruner.cpp';
+                'src/SqSceneQueryManager.cpp';
+                'src/SqAABBTreeUpdateMap.cpp';
+                'src/SqExtendedBucketPruner.cpp';
+                'src/SqCompoundPruner.cpp';
+                'src/SqMetaData.cpp';
+                'src/SqBounds.cpp';
+                'src/SqBucketPruner.cpp';
+                'src/SqCompoundPruningPool.cpp';
+                'src/SqAABBTree.cpp';
+            };
+        };
+    };
+end
