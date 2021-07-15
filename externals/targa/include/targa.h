@@ -37,8 +37,12 @@
 # define htole16(x) ( (((x) & 0x00FF) << 8) | (((x) & 0xFF00) >> 8) )
 # define letoh16(x) htole16(x)
 #else /* little endian */
+#ifndef htole16
 # define htole16(x) (x)
+#endif
+#ifndef letoh16
 # define letoh16(x) (x)
+#endif
 #endif /* endianness */
 
 #ifdef __cplusplus 
