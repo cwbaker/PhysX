@@ -1,0 +1,50 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Samples (debug)",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/debug/bin/Samples",
+            "args": ["--noXterm"],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [
+                {"name": "LD_LIBRARY_PATH", "value": "${workspaceFolder}/externals/cg-linux/lib:${workspaceFolder}/physx/bin/linux.clang/debug"}
+            ],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        }
+        {
+            "name": "Samples (release)",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/release/bin/Samples",
+            "args": ["--noXterm"],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [
+                {"name": "LD_LIBRARY_PATH", "value": "${workspaceFolder}/externals/cg-linux/lib:${workspaceFolder}/physx/bin/linux.clang/checked"}
+            ],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        }
+    ]
+}
