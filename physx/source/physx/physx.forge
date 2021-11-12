@@ -143,6 +143,6 @@ for _, cc in toolsets('^cc.*') do
             };
         };
     else
-        assertf( 'platform "%s" not supported', settings.platform );
+        assertf( 'platform "%s" not supported', cc.settings.platform );
     end
 end
