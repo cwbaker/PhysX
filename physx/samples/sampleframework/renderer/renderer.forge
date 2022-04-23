@@ -18,6 +18,7 @@ for _, cc in toolsets('^cc.*') do
 
     cc:all {
         cc:StaticLibrary '${lib}/SampleRenderer_${platform}_${architecture}' {
+            '${lib}/SampleFramework_${platform}_${architecture}';
             '${lib}/SampleToolkit_${platform}_${architecture}';
             '${lib}/SamplePlatform_${platform}_${architecture}';
 

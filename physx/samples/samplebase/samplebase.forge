@@ -2,6 +2,8 @@
 for _, cc in toolsets('^cc.*') do
     cc:all {
         cc:StaticLibrary '${lib}/SampleBase_${platform}_${architecture}' {
+            '${lib}/SampleFramework_${platform}_${architecture}';
+            '${lib}/SamplePlatform_${platform}_${architecture}';
             '${lib}/SampleToolkit_${platform}_${architecture}';
 
             cc:Cxx '${obj}/%1' {
