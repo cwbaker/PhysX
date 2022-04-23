@@ -29,10 +29,12 @@ if operating_system() == 'linux' or operating_system() == 'macos' then
         '-Wno-reorder';
         '-Wno-sign-compare';
         '-Wno-implicit-fallthrough';
+        '-Wno-mismatched-new-delete';
 
         -- -- These are also disabled for building with Forge but only need to
         -- -- be disabled for the release (and probably shipping) variant(s).
         '-Wno-stringop-overflow';
+        '-Wno-stringop-overread';
     };
 end
 
