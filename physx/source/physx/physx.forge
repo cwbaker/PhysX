@@ -1,7 +1,7 @@
 
 for _, cc in toolsets('^cc.*') do
     local physx_gpu_shared_library = switch {
-        cc.settings.platform;
+        cc.platform;
         linux = 'libPhysXGpu_64.so';
         windows = 'PhysXGpu_64.dll';
     };
@@ -143,6 +143,6 @@ for _, cc in toolsets('^cc.*') do
             };
         };
     else
-        assertf( 'platform "%s" not supported', cc.settings.platform );
+        assertf( 'platform "%s" not supported', cc.platform );
     end
 end
